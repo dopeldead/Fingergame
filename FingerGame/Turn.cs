@@ -20,43 +20,41 @@ namespace FingerGame
 
         public List<Turn> Do()
         {
-            List<Turn> possibilities = new List<Turn>();
-
             //Right=> right
             if(Active.Right+Passive.Right <= 5 && Active.Right!=0 && Passive.Right != 0)
             {
                 Turn t = new Turn(new Player(Passive.Name,Passive.Right + Active.Right, Passive.Left), new Player(Active.Name, Active.Right, Active.Left));
-                possibilities.Add(t);
+                Childs.Add(t);
             }
             //right => left
             if (Active.Right + Passive.Left < 5 && Active.Right != 0 && Passive.Left != 0)
             {
                 Turn t = new Turn(new Player(Passive.Name, Passive.Right , Passive.Left + Active.Right), new Player(Active.Name,Active.Right, Active.Left));
-                possibilities.Add(t);
+                Childs.Add(t);
             }
             //left => right
             if (Active.Left + Passive.Right <= 5 && Active.Left != 0 && Passive.Right != 0)
             {
                 Turn t = new Turn(new Player(Passive.Name, Passive.Right + Active.Left, Passive.Left ), new Player(Active.Name, Active.Right, Active.Left));
-                possibilities.Add(t);
+                Childs.Add(t);
             }
             //left=> left
             if (Active.Left + Passive.Left <= 5 && Active.Left != 0 && Passive.Left != 0)
             {
                 Turn t = new Turn(new Player(Passive.Name, Passive.Right, Passive.Left + Active.Left), new Player(Active.Name,Active.Right, Active.Left));
-                possibilities.Add(t);
+                Childs.Add(t);
             }
             //share
             if(((Active.Left+Active.Right) % 5 == 2) || ((Active.Left + Active.Right) % 5 == 3))
             {
-                possibilities.Add(new Turn(new Player(Passive.Name, Passive.Right, Passive.Left), new Player(Active.Name, Active.Right + Active.Left, 0)));
+                Childs.Add(new Turn(new Player(Passive.Name, Passive.Right, Passive.Left), new Player(Active.Name, Active.Right + Active.Left, 0)));
             }
             if ((Active.Left + Active.Right) % 5 == 4)
             {
                 for(int i =0; i < 3; i++)
                 {
                     Turn t = new Turn(new Player(Passive.Name, Passive.Right, Passive.Left), new Player(Active.Name, 0 +i, 4-i));
-                    if (t.Passive.CheckSum != Active.CheckSum) possibilities.Add(t);
+                    if (t.Passive.CheckSum != Active.CheckSum) Childs.Add(t);
                 }
             }
             if ((Active.Left + Active.Right) % 5 == 5)
@@ -64,7 +62,7 @@ namespace FingerGame
                 for (int i = 0; i < 3; i++)
                 {
                     Turn t = new Turn(new Player(Passive.Name, Passive.Right, Passive.Left), new Player(Active.Name, 0 + i, (5 - i)%5));
-                    if (t.Passive.CheckSum != Active.CheckSum) possibilities.Add(t);
+                    if (t.Passive.CheckSum != Active.CheckSum) Childs.Add(t);
                 }
             }
             if ((Active.Left + Active.Right) % 5 == 1)
@@ -72,10 +70,9 @@ namespace FingerGame
                 for (int i = 0; i < 3; i++)
                 {
                     Turn t = new Turn(new Player(Passive.Name, Passive.Right, Passive.Left), new Player(Active.Name, 1 + i, (5 - i) % 5));
-                    if (t.Passive.CheckSum != Active.CheckSum) possibilities.Add(t);
+                    if (t.Passive.CheckSum != Active.CheckSum) Childs.Add(t);
                 }
             }
-            this.Childs = possibilities.ToList();
             return this.Childs;
         }
        
